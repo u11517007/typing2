@@ -2,956 +2,1250 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>12個月節慶英打闖關年曆網 (每關精準20字挑戰)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12 個月節慶英打闖關網｜Pro 旗艦版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
+    :root {
+      --bg-dark: #090d16;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-hover: rgba(255, 255, 255, 0.08);
+      --accent-primary: #6366f1;
+      --accent-secondary: #a855f7;
+      --accent-cyan: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --danger: #f43f5e;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
     body {
-      font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-      text-align: center;
       margin: 0;
-      padding: 20px;
+      padding: 24px 20px;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.16) 0%, transparent 45%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       min-height: 100vh;
-      transition: background 0.5s ease;
     }
 
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    /* 清除存檔按鈕 */
-    .reset-save-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(239, 68, 68, 0.85);
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.2s;
-      z-index: 100;
-    }
-    .reset-save-btn:hover { background: #dc2626; }
-
-    /* 1. 歡迎/入口封面頁 */
-    #welcome-screen {
-      max-width: 650px;
-      margin: 60px auto 0 auto;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      padding: 50px 30px;
+    /* ================= 0. 專屬歡迎首頁 (Landing Page) ================= */
+    #landing-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 860px;
+      width: 100%;
+      padding: 48px 32px;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
       border-radius: 28px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      animation: fadeIn 0.6s ease;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+      animation: fadeIn 0.5s ease;
     }
-
-    .welcome-icon { font-size: 4.5rem; margin-bottom: 10px; }
-    .welcome-title { font-size: 2.2rem; color: #1e293b; margin: 10px 0; }
-    .welcome-subtitle { font-size: 1.1rem; color: #64748b; margin-bottom: 35px; line-height: 1.6; }
-    
-    .enter-btn {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .landing-icon {
+      font-size: 4.5rem;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 24px rgba(99, 102, 241, 0.5));
+      animation: float 3.5s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 99px;
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #a5b4fc;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+    }
+    .landing-title {
+      margin: 0 0 16px 0;
+      font-size: 2.8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 25%, #a5b4fc 75%, #67e8f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .landing-subtitle {
+      color: var(--text-muted);
+      font-size: 1.08rem;
+      line-height: 1.7;
+      max-width: 620px;
+      margin: 0 0 32px 0;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      width: 100%;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .feature-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    .feature-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 1.05rem;
+      color: #fff;
+    }
+    .feature-card p {
+      margin: 0;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .start-cta-btn {
+      padding: 16px 44px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       color: white;
       border: none;
-      padding: 16px 40px;
-      font-size: 1.3rem;
-      border-radius: 50px;
       cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
-      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.45);
+      transition: all 0.25s ease;
     }
-    .enter-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.45);
+    .start-cta-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.65);
+      filter: brightness(1.1);
     }
-
-    /* 2. 年曆樣式首頁 */
-    #calendar-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      border: 2px solid #ffffff;
+    .landing-progress-pill {
+      margin-top: 16px;
+      font-size: 0.88rem;
+      color: #67e8f9;
+      font-weight: 600;
     }
 
-    .calendar-header {
-      margin-bottom: 25px;
-      border-bottom: 2px dashed #cbd5e1;
-      padding-bottom: 15px;
+    /* ================= 主應用容器 (進入首頁後顯示) ================= */
+    #app-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      animation: fadeIn 0.4s ease;
     }
-    .calendar-header h2 { font-size: 1.8rem; color: #0f172a; margin: 0 0 8px 0; }
-    .calendar-header p { color: #64748b; margin: 0; font-size: 0.95rem; }
 
+    header.app-header {
+      text-align: center;
+      max-width: 760px;
+      margin-bottom: 20px;
+    }
+    header.app-header h1 {
+      margin: 4px 0 8px 0;
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header.app-header p {
+      color: var(--text-muted);
+      margin: 0;
+      font-size: 0.92rem;
+    }
+
+    /* 頂部工具列 */
+    .toolbar {
+      margin-bottom: 24px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button.tool-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+      background: var(--glass-bg);
+      color: var(--text-main);
+      backdrop-filter: blur(12px);
+    }
+    button.tool-btn:hover:not(:disabled) {
+      background: var(--glass-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+    button.primary {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      border: none;
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    }
+    button.weakness-btn {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+    }
+
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 1. 12 個月年曆網格 */
     .calendar-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      width: 100%;
+      max-width: 1000px;
     }
-
-    .month-badge-card {
-      background: #ffffff;
-      padding: 15px 10px;
+    .month-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
       border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      padding: 22px;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
       position: relative;
+      overflow: hidden;
     }
-
-    .month-badge-card:hover {
+    .month-card:hover:not(.locked) {
       transform: translateY(-5px);
-      border-color: #3b82f6;
-      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.15);
-      background: #f8fafc;
+      border-color: rgba(99, 102, 241, 0.6);
+      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.18);
     }
-
-    .month-num {
-      position: absolute;
-      top: 10px;
-      left: 12px;
-      font-size: 0.85rem;
-      font-weight: bold;
-      color: #94a3b8;
-    }
-
-    .month-icon { font-size: 2.2rem; margin: 8px 0 4px 0; }
-    .month-title { font-size: 1.05rem; font-weight: bold; color: #1e293b; margin: 0; }
-    .month-desc { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
-
-    /* 3. 關卡選擇畫面 */
-    #stage-select-screen {
-      max-width: 750px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-      border: 2px solid rgba(255,255,255,0.6);
-    }
-
-    .stage-header-box { margin-top: 10px; margin-bottom: 20px; }
-    .stage-header-box h2 { font-size: 1.8rem; color: #0f172a; margin: 10px 0 5px 0; }
-    .stage-header-box p { color: #475569; font-size: 1rem; font-weight: 500; margin: 0; }
-
-    .stage-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-top: 25px;
-    }
-
-    .stage-card {
-      background: #ffffff;
-      padding: 25px 15px;
-      border-radius: 18px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.06);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border-top: 6px solid #10b981;
-    }
-
-    .stage-card.locked {
-      background: #f1f5f9;
-      border-top: 6px solid #94a3b8;
+    .month-card.locked {
+      opacity: 0.42;
       cursor: not-allowed;
-      opacity: 0.65;
+      filter: grayscale(0.7);
+    }
+    .month-card.cleared {
+      border-color: rgba(16, 185, 129, 0.45);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.08), rgba(255, 255, 255, 0.02));
+    }
+    .badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-weight: 700;
+    }
+    .badge.cleared { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge.open { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .badge.locked { background: rgba(255, 255, 255, 0.08); color: #94a3b8; }
+    .month-icon { font-size: 2.3rem; margin-bottom: 10px; }
+    .month-title { font-size: 1.15rem; font-weight: 700; margin: 4px 0; color: #fff; }
+    .month-desc { font-size: 0.85rem; color: var(--text-muted); margin: 0 0 14px 0; line-height: 1.5; }
+    .mini-progress-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #a5b4fc;
+      font-weight: 700;
     }
 
-    .stage-card:not(.locked):hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-      border-top-color: #f59e0b;
+    /* 2. 單月 6 關選擇畫面 */
+    #stage-select-area {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px;
+      width: 100%;
+      max-width: 860px;
     }
-
-    .stage-card h3 { color: #047857; margin: 0 0 8px 0; font-size: 1.25rem; }
-    .stage-card.locked h3 { color: #64748b; }
-    .stage-card p { color: #64748b; margin: 0; font-size: 0.9rem; font-weight: bold; }
-
-    /* 4. 遊戲畫面 */
-    #game-screen {
-      max-width: 650px;
-      margin: 20px auto;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      text-align: center;
-      position: relative;
-      z-index: 10;
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      width: 100%;
+      margin-top: 24px;
     }
-
-    .back-btn {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      padding: 8px 16px;
-      border-radius: 10px;
+    .stage-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 20px;
       cursor: pointer;
-      font-weight: bold;
-      color: #334155;
-      float: left;
       transition: all 0.2s;
     }
-    .back-btn:hover { background: #f1f5f9; transform: scale(1.03); }
-
-    .festival-header { clear: both; margin-top: 15px; }
-    .festival-header h2 { color: #0f172a; margin-bottom: 5px; }
-
-    .stage-indicator {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #2563eb;
-      background: #eff6ff;
-      padding: 6px 15px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 10px;
+    .stage-card:hover:not(.locked) {
+      border-color: var(--accent-primary);
+      background: rgba(99, 102, 241, 0.1);
+      transform: translateY(-3px);
+    }
+    .stage-card.locked { opacity: 0.4; cursor: not-allowed; }
+    .stage-card.cleared {
+      border-color: rgba(16, 185, 129, 0.45);
+      background: rgba(16, 185, 129, 0.06);
+    }
+    .stage-card.boss {
+      border-color: rgba(244, 63, 94, 0.45);
+    }
+    .stage-card.boss:not(.locked) {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.12), rgba(168, 85, 247, 0.08));
     }
 
-    .festival-theme-box {
-      background: #f1f5f9;
-      padding: 8px 15px;
-      border-radius: 12px;
-      display: inline-flex;
+    /* 3. 遊戲主畫面 */
+    #game-area {
+      display: none;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      margin: 5px 0 15px 0;
-      font-weight: bold;
-      color: #334155;
+      padding: 32px;
+      width: 100%;
+      max-width: 800px;
     }
-
-    .timer-container { margin: 15px auto; width: 85%; }
-    .timer-bar-bg {
-      width: 100%; height: 12px;
-      background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-top: 5px;
+    .game-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .timer-bar-fill {
-      width: 100%; height: 100%;
-      background: #f59e0b; transition: width 1s linear;
+    .timer-banner {
+      display: none;
+      background: rgba(244, 63, 94, 0.18);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
     }
-
-    .word-card {
-      font-size: 2.8rem;
-      margin: 15px 0 5px 0;
-      padding: 15px;
-      background: #f8fafc;
+    .word-stage {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 16px;
-      border: 2px dashed #cbd5e1;
-      display: inline-block;
+      padding: 20px 44px;
+      margin: 10px 0 18px 0;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .word-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 3.6rem;
+      font-weight: 800;
+      letter-spacing: 8px;
+    }
+    .char-done { color: var(--success); text-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+    .char-current {
+      color: #ffffff;
+      border-bottom: 4px solid var(--accent-cyan);
+      text-shadow: 0 0 20px rgba(6, 182, 212, 0.7);
+    }
+    .char-todo { color: #475569; }
+
+    .shake { animation: shake 0.28s; }
+    .shake .char-current { color: var(--danger) !important; border-color: var(--danger); }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
     }
 
-    .highlight {
-      font-size: 3.2rem;
-      font-weight: bold;
-      color: #dc2626;
-      background: #fee2e2;
-      border: 3px solid #ef4444;
+    .hint-box {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: #67e8f9;
+      padding: 8px 20px;
+      border-radius: 99px;
+      font-weight: 600;
+      margin-bottom: 26px;
+      font-size: 0.92rem;
+    }
+
+    /* 虛擬鍵盤 */
+    .keyboard {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 26px;
+      user-select: none;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .kb-row { display: flex; justify-content: center; gap: 7px; }
+    .key {
+      width: 48px;
+      height: 48px;
       border-radius: 10px;
-      padding: 2px 14px;
-      margin-right: 6px;
-      box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 1.05rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 3px solid rgba(0, 0, 0, 0.45);
+      transition: all 0.1s ease;
+      position: relative;
     }
-
-    .word-rest { color: #64748b; letter-spacing: 2px; }
-
-    /* 剩餘5秒以內的動態指法提示區 */
-    .finger-hint-box {
-      min-height: 30px;
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-      font-weight: bold;
-      color: #d97706;
-      background: #fef3c7;
-      border: 1px solid #f59e0b;
-      border-radius: 8px;
-      padding: 6px 12px;
-      display: inline-block;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .finger-hint-box.show { opacity: 1; }
-
-    .virtual-keyboard {
-      background: #e2e8f0;
-      padding: 12px;
-      border-radius: 12px;
-      max-width: 480px;
-      margin: 10px auto;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
-    }
-
-    .keyboard-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 6px; }
-
-    .virtual-keyboard .key {
-      width: 36px; height: 40px;
-      background: #ffffff; border-radius: 6px;
-      display: flex; justify-content: center; align-items: center;
-      font-weight: bold; font-size: 0.9rem; color: #475569;
-      box-shadow: 0 3px 0 #cbd5e1; transition: all 0.1s ease;
-    }
-
-    .home-row .key.home-highlight { background: #fef08a; color: #854d0e; }
-    .top-row .key.top-highlight { background: #bae6fd; color: #0369a1; }
-    .bottom-row .key.bottom-highlight { background: #bbf7d0; color: #15803d; }
-
-    .virtual-keyboard .key.fj-key { border-bottom: 3px solid #2563eb; }
-
-    .virtual-keyboard .key.active-target {
-      background: #ef4444 !important; color: white !important;
-      transform: scale(1.15); box-shadow: 0 0 15px rgba(239, 68, 68, 0.7); z-index: 10;
-    }
-
-    .progress-info { font-size: 1.1rem; color: #334155; font-weight: bold; margin-top: 10px; }
-
-    .countdown-overlay {
+    .key[data-key="F"]::after, .key[data-key="J"]::after {
+      content: '';
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      border-radius: 20px; z-index: 50;
+      bottom: 5px;
+      width: 14px;
+      height: 2px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+    .f-pinky  { background: rgba(244, 63, 94, 0.16); color: #fda4af; }
+    .f-ring   { background: rgba(249, 115, 22, 0.16); color: #fdba74; }
+    .f-middle { background: rgba(234, 179, 8, 0.16);  color: #fde047; }
+    .f-index-l{ background: rgba(16, 185, 129, 0.16); color: #6ee7b7; }
+    .f-index-r{ background: rgba(59, 130, 246, 0.18); color: #93c5fd; }
+
+    .key.target {
+      background: var(--accent-cyan) !important;
+      color: #090d16 !important;
+      border-color: #cffafe;
+      box-shadow: 0 0 18px rgba(6, 182, 212, 0.75);
+      transform: translateY(-2px) scale(1.08);
+      z-index: 2;
+    }
+    .key.wrong {
+      background: var(--danger) !important;
+      color: white !important;
+      box-shadow: 0 0 18px rgba(244, 63, 94, 0.8);
+      transform: scale(0.94);
     }
 
-    .countdown-number {
-      font-size: 5rem; font-weight: bold; color: #2563eb; animation: pulse 1s infinite;
+    .progress-bar-wrap {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      height: 10px;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-primary), var(--accent-secondary));
+      width: 0%;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
     }
 
-    .start-btn {
-      background: #10b981; color: white; border: none;
-      padding: 15px 30px; font-size: 1.3rem; border-radius: 12px;
-      cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-      transition: background 0.2s;
+    /* 4. 過關結算彈窗 */
+    #victory-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 15, 0.8);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
     }
-    .start-btn:hover { background: #059669; }
-
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-    .modal {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6); display: none;
-      justify-content: center; align-items: center; z-index: 1000;
-    }
-
     .modal-content {
-      background: white; padding: 30px; border-radius: 20px;
-      text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.25); max-width: 480px; width: 90%;
-      max-height: 85vh; overflow-y: auto;
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 32px;
+      border-radius: 24px;
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
     }
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .stat-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+    }
+    .stat-lbl { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 
-    .modal-content h2 { color: #16a34a; margin-top: 0; }
-    
     .analysis-box {
-      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
-      padding: 12px; margin: 15px 0; text-align: left; font-size: 0.9rem; color: #334155;
+      background: rgba(244, 63, 94, 0.08);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 22px;
+      text-align: left;
     }
-    .analysis-box h4 { margin: 0 0 8px 0; color: #1e293b; text-align: center; }
+    .analysis-box.perfect {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      text-align: center;
+    }
+    .analysis-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fda4af;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .weak-key-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+    }
+    .weak-key-badge {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--danger);
+      color: white;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
+    }
 
-    .modal-content button {
-      background: #3b82f6; color: white; border: none; padding: 12px 24px;
-      border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin: 8px; font-weight: bold;
+    @media (max-width: 600px) {
+      .landing-title { font-size: 2rem; }
+      .key { width: 32px; height: 38px; font-size: 0.85rem; }
+      .word-display { font-size: 2.4rem; }
     }
-    .modal-content button:hover { background: #1d4ed8; }
   </style>
 </head>
 <body>
 
-  <button class="reset-save-btn" onclick="resetSaveData()">🗑️ 重置所有存檔</button>
-
-  <!-- 1. 歡迎/入口封面頁 -->
-  <div id="welcome-screen" class="screen active">
-    <div class="welcome-icon">🎡</div>
-    <h1 class="welcome-title">12 個月節慶英打闖關網</h1>
-    <p class="welcome-subtitle">
-      跟著節慶主題練習英打指法！<br>
-      挑戰中排、上排與下排鍵盤練習，解鎖 12 個月節慶專屬年曆！
+  <!-- ================= 專屬歡迎首頁 ================= -->
+  <section id="landing-view">
+    <div class="landing-icon">🎡</div>
+    <div class="hero-badge">TOUCH TYPING ACADEMY</div>
+    <h1 class="landing-title">12 個月節慶英打闖關網</h1>
+    <p class="landing-subtitle">
+      告別枯燥的鍵盤練習！透過 12 個月節慶主題、72 道循序漸進的指法關卡與即時錯字診斷，帶你從中排定位鍵開始，輕鬆練成不看鍵盤的盲打高手。
     </p>
-    <button class="enter-btn" onclick="goToCalendarScreen()">🚀 開始挑戰遊戲</button>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">📅</div>
+        <h3>72 關漸進式特訓</h3>
+        <p>每月 6 關，從「中排 → 上排 → 下排」逐步解鎖至「節慶長字與限時魔王關」。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🎯</div>
+        <h3>智慧錯字與指法診斷</h3>
+        <p>過關自動統計最常按錯的字母與對應手指，並生成專屬「弱點特訓營」。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🎆</div>
+        <h3>節慶煙火與聲光回饋</h3>
+        <p>F/J 定位鍵提示、左右手分區配色，通關施放專屬節慶煙火與勝利音效。</p>
+      </div>
+    </div>
+
+    <button class="start-cta-btn" id="enter-app-btn" onclick="enterApp()">🚀 開始闖關挑戰</button>
+    <div class="landing-progress-pill" id="landing-progress-text">目前闖關進度：0 / 72 關</div>
+  </section>
+
+  <!-- ================= 主應用介面 (年曆 / 選關 / 遊戲) ================= -->
+  <div id="app-container">
+    <header class="app-header">
+      <h1>🎡 12 個月節慶英打闖關網</h1>
+      <p>點擊已解鎖月份展開 6 關特訓，完成第六關即可解鎖下個月份並施放慶祝煙火！</p>
+    </header>
+
+    <div class="toolbar">
+      <button class="tool-btn" onclick="returnToLanding()">🏠 返回首頁</button>
+      <button class="tool-btn" id="sound-toggle">🔊 音效：開啟</button>
+      <button class="tool-btn weakness-btn" id="weakness-train-btn" onclick="startWeaknessTraining()" style="display:none;">🎯 弱點特訓營</button>
+      <button class="tool-btn" onclick="triggerCelebration(1, true)">🎆 預覽煙火</button>
+      <button class="tool-btn" onclick="resetProgress()" style="color: #fda4af;">重置進度</button>
+    </div>
+
+    <!-- 畫面 1：12 個月年曆區 -->
+    <div id="calendar-view" class="calendar-grid"></div>
+
+    <!-- 畫面 2：單月 6 關選擇區 -->
+    <div id="stage-select-area" class="glass-panel">
+      <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+        <button class="tool-btn" onclick="backToCalendar()">← 返回 12 個月年曆</button>
+        <span id="month-stage-progress" style="font-weight: 700; color: #a5b4fc;">完成度：0 / 6 關</span>
+      </div>
+      <div style="text-align: center; margin-top: 14px;">
+        <div id="sel-month-icon" style="font-size: 3.2rem;">🎆</div>
+        <h2 id="sel-month-title" style="margin: 8px 0; font-size: 1.5rem;">一月：跨年元旦 - 選擇關卡</h2>
+        <p id="sel-month-desc" style="color: var(--text-muted); margin: 0;">迎接新年的第一道曙光，完成 6 關特訓解鎖下個月！</p>
+      </div>
+      <div class="stages-grid" id="stages-grid"></div>
+    </div>
+
+    <!-- 畫面 3：遊戲練習區 -->
+    <div id="game-area" class="glass-panel">
+      <div class="game-header">
+        <button class="tool-btn" id="back-btn" onclick="backToStageSelect()">← 返回關卡列表</button>
+        <div style="text-align: center;">
+          <strong id="game-title" style="font-size: 1.15rem; color: #fff;">一月 - Stage 1</strong>
+          <div id="game-subtitle" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">中排鍵基礎定位</div>
+        </div>
+        <div id="progress-text" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: var(--accent-cyan);">0 / 8</div>
+      </div>
+
+      <div class="timer-banner" id="timer-banner">⏱️ 限時挑戰剩餘時間：<span id="time-left">45</span> 秒</div>
+
+      <div class="word-stage">
+        <div class="word-display" id="word-display"></div>
+      </div>
+
+      <div class="hint-box" id="hint-box">💡 提示：準備開始</div>
+
+      <div class="keyboard" id="keyboard"></div>
+
+      <div style="width: 100%;">
+        <div style="font-size: 0.85rem; color: var(--text-muted); text-align: right;" id="progress-label">本關目標進度：已打對 0 / 8 個單字</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- 2. 節慶年曆選單頁 -->
-  <div id="calendar-screen" class="screen">
-    <div id="calendar-container">
-      <div class="calendar-header">
-        <h2>📅 12 個月節慶主題年曆</h2>
-        <p>請點擊月份展開關卡特訓 (過關自動解鎖進度)</p>
+  <!-- 畫面 4：過關結算與錯字分析診斷彈窗 -->
+  <div id="victory-modal">
+    <div class="modal-content">
+      <div id="victory-icon" style="font-size: 3.6rem; margin-bottom: 6px;">🎉</div>
+      <h2 id="victory-title" style="margin: 0 0 6px 0; font-size: 1.5rem;">Stage 1 通關！</h2>
+      <p id="victory-desc" style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">已解鎖下一關特訓！</p>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-val" id="stat-accuracy">100%</div>
+          <div class="stat-lbl">本關按鍵準確率</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-wpm">32</div>
+          <div class="stat-lbl">打字速度 (WPM)</div>
+        </div>
       </div>
-      <div class="calendar-grid" id="calendar-grid"></div>
+
+      <div id="error-analysis-container"></div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="tool-btn" style="flex: 1; padding: 12px;" onclick="closeVictoryModal(false)">返回選單</button>
+        <button class="tool-btn primary" style="flex: 1.3; padding: 12px;" id="next-stage-btn" onclick="closeVictoryModal(true)">挑戰下一關 →</button>
+      </div>
     </div>
   </div>
 
-  <!-- 3. 關卡選擇畫面 (Stage 1 ~ 6) -->
-  <div id="stage-select-screen" class="screen">
-    <button class="back-btn" onclick="backToCalendar()">⬅ 返回節慶年曆</button>
-    <div class="stage-header-box">
-      <div id="stage-header-icon" style="font-size: 3.5rem;">🎆</div>
-      <h2 id="stage-menu-title">一月：跨年元旦 - 選擇關卡</h2>
-      <p id="stage-menu-desc">迎接新年的第一道署光，踏上指法特訓之旅！</p>
-    </div>
-    <div class="stage-grid" id="stage-grid"></div>
-  </div>
+<script>
+  // 1. 鍵盤排數基礎題庫
+  const ROW_POOLS = {
+    home:   ["ask", "sad", "lad", "all", "fall", "hall", "salad", "flash", "glass", "add", "dad", "gas", "has", "jag"],
+    top:    ["we", "up", "it", "or", "to", "try", "out", "top", "pot", "toy", "pet", "eye", "you", "tree", "type", "write", "power", "quiet"],
+    bottom: ["zoo", "box", "van", "man", "can", "ban", "mix", "fix", "cab", "mad", "bad", "name", "cave", "zero", "moon", "move"]
+  };
 
-  <!-- 4. 遊戲實際練習畫面 -->
-  <div id="game-screen" class="screen">
-    
-    <div id="countdown-overlay" class="countdown-overlay">
-      <div id="ready-content">
-        <h2 id="ready-title" style="color: #1e293b; margin-bottom: 20px;">準備好挑戰了嗎？</h2>
-        <button class="start-btn" onclick="startCountdown()">點擊開始挑戰</button>
-      </div>
-      <div id="countdown-number" class="countdown-number" style="display:none;">3</div>
-    </div>
+  // 2. 12 個月節慶資料
+  const MONTHS_DATA = [
+    { id: 1,  icon: "🎆", name: "一月：跨年元旦", desc: "迎接新年的第一道曙光，踏上指法特訓之旅！", short: ["new", "year", "day", "one", "sun", "sky", "wish", "hope"], long: ["january", "sunrise", "forward", "newyear", "promise"] },
+    { id: 2,  icon: "🧨", name: "二月：農曆新年", desc: "點燃鞭炮，迎春接福，喜氣洋洋過好年！", short: ["red", "gold", "fire", "luck", "lion", "drum", "rich", "gift"], long: ["lantern", "fortune", "dragon", "festival", "firework"] },
+    { id: 3,  icon: "🌱", name: "三月：植樹春分", desc: "春暖花開，播下希望的種子！", short: ["tree", "leaf", "seed", "grow", "park", "root", "wood", "rain"], long: ["spring", "forest", "nature", "flower", "blossom"] },
+    { id: 4,  icon: "🐣", name: "四月：兒童清明", desc: "春日踏青放風箏，享受快樂時光！", short: ["play", "kite", "game", "jump", "kid", "toy", "hill", "wind"], long: ["children", "holiday", "outdoor", "laughter", "balloon"] },
+    { id: 5,  icon: "💐", name: "五月：溫馨母親節", desc: "獻上康乃馨，大聲說出感謝與愛！", short: ["mom", "love", "care", "kind", "hug", "warm", "home", "pink"], long: ["mother", "thankful", "family", "blessing", "carnation"] },
+    { id: 6,  icon: "🐉", name: "六月：端午龍舟", desc: "划龍舟吃粽子，齊心協力向前衝！", short: ["boat", "race", "team", "fast", "win", "river", "rice", "wave"], long: ["dragon", "paddle", "champion", "summer", "tradition"] },
+    { id: 7,  icon: "☀️", name: "七月：盛夏暑假", desc: "陽光、沙灘、海浪與冰淇淋！", short: ["sun", "swim", "sea", "sand", "cool", "blue", "camp", "ice"], long: ["vacation", "sunshine", "beach", "dolphin", "adventure"] },
+    { id: 8,  icon: "🏮", name: "八月：父親七夕", desc: "浪漫星空與感謝爸爸的英雄時刻！", short: ["dad", "hero", "moon", "night", "star", "love", "ship", "bridge"], long: ["father", "galaxy", "evening", "respect", "twinkle"] },
+    { id: 9,  icon: "🌕", name: "九月：中秋團圓", desc: "月圓人團圓，柚子月餅與烤肉香！", short: ["full", "cake", "joy", "tea", "light", "round", "sweet", "glow"], long: ["autumn", "reunion", "mooncake", "together", "harvest"] },
+    { id: 10, icon: "🇹🇼", name: "十月：光輝十月", desc: "璀璨煙火點亮夜空，普天同慶！", short: ["flag", "party", "music", "dance", "cheer", "proud", "song"], long: ["national", "parade", "celebrate", "freedom", "sparkle"] },
+    { id: 11, icon: "🦃", name: "十一月：感恩秋收", desc: "細數這一年收穫的所有美好！", short: ["thank", "share", "feast", "smile", "friend", "corn", "pie"], long: ["grateful", "kindness", "together", "blessing", "november"] },
+    { id: 12, icon: "🎄", name: "十二月：聖誕佳節", desc: "鈴聲響起，雪花紛飛，迎向終極挑戰！", short: ["snow", "bell", "santa", "merry", "angel", "star", "sled"], long: ["christmas", "reindeer", "winter", "presents", "december"] }
+  ];
 
-    <button class="back-btn" onclick="backToStageSelect()">⬅ 返回關卡選單</button>
-    
-    <div class="festival-header">
-      <div id="stage-badge" class="stage-indicator">Stage 1</div>
-      <h2 id="festival-title">二月：農曆新年</h2>
-      <div id="festival-theme-box" class="festival-theme-box">
-        <span id="festival-icon" style="font-size: 1.8rem;">🧨</span>
-        <span id="theme-desc">點燃鞭炮，迎春接福！</span>
-      </div>
-    </div>
+  // 每月 6 關結構
+  const STAGE_TEMPLATES = [
+    { stage: 1, title: "Stage 1：中排鍵暖身", desc: "專注 ASDFGHJKL 基礎定位", target: 8,  timeLimit: 0,  type: "home" },
+    { stage: 2, title: "Stage 2：上排鍵加入", desc: "練習 QWERTYUIOP 向上伸展", target: 8,  timeLimit: 0,  type: "top" },
+    { stage: 3, title: "Stage 3：下排鍵挑戰", desc: "練習 ZXCVBNM 向下移動",   target: 8,  timeLimit: 0,  type: "bottom" },
+    { stage: 4, title: "Stage 4：節慶主題單字", desc: "全鍵盤綜合節慶詞彙",     target: 10, timeLimit: 0,  type: "fest_short" },
+    { stage: 5, title: "Stage 5：節慶長字特訓", desc: "訓練手指連續盲打耐力",   target: 10, timeLimit: 0,  type: "fest_long" },
+    { stage: 6, title: "Stage 6：月度限時魔王", desc: "45秒內完成！過關放專屬煙火", target: 10, timeLimit: 45, type: "boss" }
+  ];
 
-    <div class="timer-container">
-      <div style="font-size: 0.9rem; color: #64748b;">思考倒數：<span id="time-left">10</span> 秒</div>
-      <div class="timer-bar-bg">
-        <div id="timer-bar" class="timer-bar-fill"></div>
-      </div>
-    </div>
+  const FINGER_HINTS = {
+    Q:"左手小指", A:"左手小指", Z:"左手小指",
+    W:"左手無名指", S:"左手無名指", X:"左手無名指",
+    E:"左手中指", D:"左手中指", C:"左手中指",
+    R:"左手食指", F:"左手食指(定位鍵)", V:"左手食指", T:"左手食指", G:"左手食指", B:"左手食指",
+    Y:"右手食指", H:"右手食指", N:"右手食指", U:"右手食指", J:"右手食指(定位鍵)", M:"右手食指",
+    I:"右手中指", K:"右手中指",
+    O:"右手無名指", L:"右手無名指",
+    P:"右手小指"
+  };
 
-    <div class="word-card">
-      <span id="highlight-letter" class="highlight">[A]</span>
-      <span id="remaining-word" class="word-rest">pple</span>
-    </div>
+  // 3. 進度與數據統計狀態
+  let totalCleared = parseInt(localStorage.getItem('typing72_cleared') || '0');
+  let globalErrorStats = JSON.parse(localStorage.getItem('typing72_errors') || '{}');
+  let activeMonthId = 1;
+  let activeStageNum = 1;
+  let isWeaknessMode = false;
 
-    <!-- 剩餘 5 秒內才會顯示的指法位置提示區 -->
-    <div>
-      <div id="finger-hint" class="finger-hint-box">💡 提示：載入中...</div>
-    </div>
+  let currentWordPool = [];
+  let currentWord = "";
+  let previousWord = ""; // 記錄上一題單字，避免連續重複
+  let charIndex = 0;
+  let completedWords = 0;
+  let targetWordsCount = 8;
+  let timerInterval = null;
+  let timeLeft = 0;
+  let soundEnabled = true;
 
-    <!-- 虛擬鍵盤 -->
-    <div class="virtual-keyboard">
-      <div class="keyboard-row top-row">
-        <span class="key" data-key="Q">Q</span><span class="key" data-key="W">W</span><span class="key" data-key="E">E</span><span class="key" data-key="R">R</span><span class="key" data-key="T">T</span><span class="key" data-key="Y">Y</span><span class="key" data-key="U">U</span><span class="key" data-key="I">I</span><span class="key" data-key="O">O</span><span class="key" data-key="P">P</span>
-      </div>
-      <div class="keyboard-row home-row">
-        <span class="key" data-key="A">A</span><span class="key" data-key="S">S</span><span class="key" data-key="D">D</span><span class="key" data-key="F" id="key-F">F</span><span class="key" data-key="G">G</span><span class="key" data-key="H">H</span><span class="key" data-key="J" id="key-J">J</span><span class="key" data-key="K">K</span><span class="key" data-key="L">L</span>
-      </div>
-      <div class="keyboard-row bottom-row">
-        <span class="key" data-key="Z">Z</span><span class="key" data-key="X">X</span><span class="key" data-key="C">C</span><span class="key" data-key="V">V</span><span class="key" data-key="B">B</span><span class="key" data-key="N">N</span><span class="key" data-key="M">M</span>
-      </div>
-    </div>
+  let stageStartTime = 0;
+  let totalKeystrokes = 0;
+  let correctKeystrokes = 0;
+  let stageMistakes = {};
 
-    <div id="progress-info" class="progress-info">本關目標進度：已打對 0 / 20 次</div>
-  </div>
-
-  <script>
-    const FESTIVAL_DATA = {
-      1: { 
-        title: "跨年元旦", icon: "🎆", desc: "跨年煙火倒數計時！", themeBg: "linear-gradient(135deg, #1e1b4b, #312e81)",
-        wordsStage1: { 'A': 'Annual', 'S': 'Sparkler', 'D': 'December-end', 'F': 'Fireworks', 'G': 'Gathering', 'H': 'Happy', 'J': 'January', 'K': 'Kiss', 'L': 'Light' },
-        wordsStage2: { 'Q': 'Quartet', 'W': 'Wish', 'E': 'Event', 'R': 'Revel', 'T': 'Toast', 'Y': 'Year', 'U': 'Usher', 'I': 'Illumination', 'O': 'Ovation', 'P': 'Party' },
-        wordsStage3: { 'Z': 'Zeal', 'X': 'Xmas', 'C': 'Celebration', 'V': 'Vigor', 'B': 'Balloon', 'N': 'New-year', 'M': 'Midnight' }
-      },
-      2: { 
-        title: "農曆新年", icon: "🧨", desc: "點燃鞭炮，歡喜迎春！", themeBg: "linear-gradient(135deg, #7f1d1d, #991b1b)",
-        wordsStage1: { 'A': 'Apple', 'S': 'Spring', 'D': 'Dragon', 'F': 'Fortune', 'G': 'Gold', 'H': 'Home', 'J': 'Joy', 'K': 'Kin', 'L': 'Lantern' },
-        wordsStage2: { 'Q': 'Quick', 'W': 'Worship', 'E': 'Envelope', 'R': 'Red', 'T': 'Tradition', 'Y': 'Yellow', 'U': 'Unity', 'I': 'Incense', 'O': 'Offering', 'P': 'People' },
-        wordsStage3: { 'Z': 'Zodiac', 'X': 'Xenial', 'C': 'Cunghie', 'V': 'Visit', 'B': 'Blessing', 'N': 'New-moon', 'M': 'Money' }
-      },
-      3: { 
-        title: "女兒節", icon: "🌸", desc: "桃花香裡慶祝女孩節", themeBg: "linear-gradient(135deg, #fbcfe8, #f472b6)",
-        wordsStage1: { 'A': 'Adornment', 'S': 'Silk', 'D': 'Doll', 'F': 'Festival', 'G': 'Girl', 'H': 'Hina', 'J': 'Jewel', 'K': 'Kimono', 'L': 'Lily' },
-        wordsStage2: { 'Q': 'Queen', 'W': 'Wreath', 'E': 'Embroidery', 'R': 'Ribbon', 'T': 'Tiara', 'Y': 'Youth', 'U': 'Umbrella', 'I': 'Iris', 'O': 'Ornament', 'P': 'Peach' },
-        wordsStage3: { 'Z': 'Zinnia', 'X': 'Xylograph', 'C': 'Charma', 'V': 'Vase', 'B': 'Blossom', 'N': 'Nest', 'M': 'Maid' }
-      },
-      4: { 
-        title: "兒童節", icon: "🎈", desc: "童趣繽紛快樂放風箏", themeBg: "linear-gradient(135deg, #fef08a, #fde047)",
-        wordsStage1: { 'A': 'Amusement', 'S': 'Smile', 'D': 'Delight', 'F': 'Fun', 'G': 'Game', 'H': 'Happiness', 'J': 'Joy', 'K': 'Kite', 'L': 'Laughter' },
-        wordsStage2: { 'Q': 'Quest', 'W': 'Wonder', 'E': 'Excitement', 'R': 'Ride', 'T': 'Toy', 'Y': 'Yoyo', 'U': 'Unicorn', 'I': 'Icecream', 'O': 'Outdoor', 'P': 'Play' },
-        wordsStage3: { 'Z': 'Zoo', 'X': 'Xylophone', 'C': 'Candy', 'V': 'Vibrant', 'B': 'Bubble', 'N': 'Nursery', 'M': 'Magic' }
-      },
-      5: { 
-        title: "母親節", icon: "💐", desc: "獻上康乃馨感謝偉大母愛", themeBg: "linear-gradient(135deg, #fce7f3, #f43f5e)",
-        wordsStage1: { 'A': 'Affection', 'S': 'Sweet', 'D': 'Devotion', 'F': 'Flower', 'G': 'Gift', 'H': 'Hug', 'J': 'Joy', 'K': 'Kindness', 'L': 'Love' },
-        wordsStage2: { 'Q': 'Quilt', 'W': 'Warmth', 'E': 'Embrace', 'R': 'Rose', 'T': 'Tender', 'Y': 'Yearning', 'U': 'Understanding', 'I': 'Ideal', 'O': 'Orchid', 'P': 'Prize' },
-        wordsStage3: { 'Z': 'Zest', 'X': 'Xenodochy', 'C': 'Care', 'V': 'Virtue', 'B': 'Bouquet', 'N': 'Nurture', 'M': 'Mother' }
-      },
-      6: { 
-        title: "端午節", icon: "🚣", desc: "划龍舟、包粽子向前衝！", themeBg: "linear-gradient(135deg, #dcfce7, #16a34a)",
-        wordsStage1: { 'A': 'Aroma', 'S': 'Sachet', 'D': 'Dragon', 'F': 'Feast', 'G': 'Glutinous', 'H': 'Herbs', 'J': 'Jongzi', 'K': 'Keelboat', 'L': 'Leaf' },
-        wordsStage2: { 'Q': 'Quick', 'W': 'Water', 'E': 'Energy', 'R': 'Rowing', 'T': 'Tiangong', 'Y': 'Yin', 'U': 'Utensil', 'I': 'Iris', 'O': 'Oars', 'P': 'Paddle' },
-        wordsStage3: { 'Z': 'Zestful', 'X': 'Xebec', 'C': 'Competition', 'V': 'Victory', 'B': 'Boat', 'N': 'Navigation', 'M': 'Mudong' }
-      },
-      7: { 
-        title: "暑假", icon: "☀️", desc: "陽光沙灘熱情暑假！", themeBg: "linear-gradient(135deg, #e0f2fe, #0284c7)",
-        wordsStage1: { 'A': 'Adventure', 'S': 'Sun', 'D': 'Diving', 'F': 'Float', 'G': 'Glasses', 'H': 'Hot', 'J': 'July', 'K': 'Kayak', 'L': 'Lagoon' },
-        wordsStage2: { 'Q': 'Quench', 'W': 'Wave', 'E': 'Escape', 'R': 'Resort', 'T': 'Travel', 'Y': 'Yacht', 'U': 'Umbrella', 'I': 'Island', 'O': 'Ocean', 'P': 'Pool' },
-        wordsStage3: { 'Z': 'Zenith', 'X': 'Xenon', 'C': 'Camping', 'V': 'Vacation', 'B': 'Beach', 'N': 'Nature', 'M': 'Marine' }
-      },
-      8: { 
-        title: "父親節", icon: "🦸‍♂️", desc: "向家裡的超級英雄老爸致敬", themeBg: "linear-gradient(135deg, #dbeafe, #1d4ed8)",
-        wordsStage1: { 'A': 'Admiration', 'S': 'Strong', 'D': 'Dad', 'F': 'Father', 'G': 'Great', 'H': 'Hero', 'J': 'Jovial', 'K': 'Kinship', 'L': 'Loyal' },
-        wordsStage2: { 'Q': 'Quality', 'W': 'Wisdom', 'E': 'Esteem', 'R': 'Reliable', 'T': 'Tower', 'Y': 'Yield', 'U': 'Uncle', 'I': 'Inspiration', 'O': 'Oak', 'P': 'Pillar' },
-        wordsStage3: { 'Z': 'Zealot', 'X': 'Xyloid', 'C': 'Courage', 'V': 'Valor', 'B': 'Brave', 'N': 'Noble', 'M': 'Manhood' }
-      },
-      9: { 
-        title: "中秋節", icon: "🥮", desc: "月圓人團圓，賞月吃月餅", themeBg: "linear-gradient(135deg, #f3e8ff, #7e22ce)",
-        wordsStage1: { 'A': 'Autumn', 'S': 'Shine', 'D': 'Delicious', 'F': 'Fullmoon', 'G': 'Golden', 'H': 'Harvest', 'J': 'Jade-rabbit', 'K': 'Kinsfolk', 'L': 'Lantern' },
-        wordsStage2: { 'Q': 'Quilt', 'W': 'Wander', 'E': 'Evening', 'R': 'Reflection', 'T': 'Treat', 'Y': 'Yolk', 'U': 'Universe', 'I': 'Illusion', 'O': 'Orbit', 'P': 'Pomelo' },
-        wordsStage3: { 'Z': 'Zenith', 'X': 'Xanthic', 'C': 'Cake', 'V': 'View', 'B': 'Beam', 'N': 'Night', 'M': 'Moonlight' }
-      },
-      10: { 
-        title: "萬聖節", icon: "🎃", desc: "不給糖就搗蛋，南瓜燈亮起", themeBg: "linear-gradient(135deg, #ffedd5, #ea580c)",
-        wordsStage1: { 'A': 'Apparition', 'S': 'Spooky', 'D': 'Darkness', 'F': 'Fright', 'G': 'Ghost', 'H': 'Haunt', 'J': 'Jack-o-lantern', 'K': 'Kidnap', 'L': 'Lantern' },
-        wordsStage2: { 'Q': 'Queer', 'W': 'Witch', 'E': 'Eerie', 'R': 'Raven', 'T': 'Trick', 'Y': 'Yell', 'U': 'Unknown', 'I': 'Illusion', 'O': 'Ogre', 'P': 'Potion' },
-        wordsStage3: { 'Z': 'Zombie', 'X': 'Xenon', 'C': 'Costume', 'V': 'Vampire', 'B': 'Bat', 'N': 'Nightmare', 'M': 'Mask' }
-      },
-      11: { 
-        title: "感恩節", icon: "🦃", desc: "滿懷感謝的溫馨豐收盛宴", themeBg: "linear-gradient(135deg, #fef3c7, #b45309)",
-        wordsStage1: { 'A': 'Appreciation', 'S': 'Sharing', 'D': 'Dinner', 'F': 'Feast', 'G': 'Gratitude', 'H': 'Harvest', 'J': 'Joyful', 'K': 'Kitchen', 'L': 'Leg' },
-        wordsStage2: { 'Q': 'Quiche', 'W': 'Wheat', 'E': 'Eat', 'R': 'Roast', 'T': 'Turkey', 'Y': 'Yam', 'U': 'Union', 'I': 'Invitation', 'O': 'Onion', 'P': 'Pie' },
-        wordsStage3: { 'Z': 'Zest', 'X': 'Xanthic', 'C': 'Cornucopia', 'V': 'Victual', 'B': 'Bountiful', 'N': 'Novena', 'M': 'Meal' }
-      },
-      12: { 
-        title: "聖誕節", icon: "🎄", desc: "雪花飄飄，聖誕老公公送禮物", themeBg: "linear-gradient(135deg, #d1fae5, #047857)",
-        wordsStage1: { 'A': 'Angel', 'S': 'Santa', 'D': 'Decoration', 'F': 'Fir-tree', 'G': 'Gift', 'H': 'Holiday', 'J': 'Jingle', 'K': 'Kris-kringle', 'L': 'Light' },
-        wordsStage2: { 'Q': 'Quiet', 'W': 'Wrap', 'E': 'Elf', 'R': 'Reindeer', 'T': 'Tree', 'Y': 'Yule', 'U': 'Unwrap', 'I': 'Icicle', 'O': 'Ornament', 'P': 'Present' },
-        wordsStage3: { 'Z': 'Zeal', 'X': 'Xmas', 'C': 'Carols', 'V': 'Visit', 'B': 'Bell', 'N': 'Noel', 'M': 'Merry' }
-      }
-    };
-
-    const FINGER_POSITIONS = {
-      'Q': '上排左手小指', 'W': '上排左手無名指', 'E': '上排左手中指', 'R': '上排左手食指', 'T': '上排左手食指',
-      'Y': '上排右手食指', 'U': '上排右手食指', 'I': '上排右手中指', 'O': '上排右手無名指', 'P': '上排右手小指',
-      'A': '中排左手小指', 'S': '中排左手無名指', 'D': '中排左手中指', 'F': '中排左手食指 (定位鍵)', 'G': '中排左手食指',
-      'H': '中排右手食指', 'J': '中排右手食指 (定位鍵)', 'K': '中排右手中指', 'L': '中排右手無名指',
-      'Z': '下排左手小指', 'X': '下排左手無名指', 'C': '下排左手中指', 'V': '下排左手食指', 'B': '下排左手食指',
-      'N': '下排右手食指', 'M': '下排右手食指'
-    };
-
-    let currentMonth = 1;
-    let currentStage = 1;
-    let currentKey = 'A';
-    let currentWord = '';
-    let questionQueue = []; // 題目佇列 (固定 20 個)
-    let currentQuestionIndex = 0;
-    let wrongCounts = {};
-    let unlockedStages = loadSaveData();
-
-    function loadSaveData() {
-      const saved = localStorage.getItem('typingGameProgress');
-      if (saved) return JSON.parse(saved);
-      let initial = {};
-      for(let i=1; i<=12; i++) initial[i] = 1;
-      return initial;
+  // ================= 首頁與主畫面切換邏輯 =================
+  function updateLandingStats() {
+    document.getElementById('landing-progress-text').textContent = `目前闖關進度：${totalCleared} / 72 關`;
+    const btn = document.getElementById('enter-app-btn');
+    if (totalCleared > 0 && totalCleared < 72) {
+      btn.textContent = "🔥 繼續未完的挑戰";
+    } else if (totalCleared >= 72) {
+      btn.textContent = "🏆 重溫全破年曆";
+    } else {
+      btn.textContent = "🚀 開始闖關挑戰";
     }
+  }
 
-    function saveProgress() {
-      localStorage.setItem('typingGameProgress', JSON.stringify(unlockedStages));
-    }
+  function enterApp() {
+    // 順便在點擊按鈕時喚醒瀏覽器音效引擎
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    document.getElementById('landing-view').style.display = 'none';
+    document.getElementById('app-container').style.display = 'flex';
+    backToCalendar();
+  }
 
-    function resetSaveData() {
-      if (confirm("確定要重置所有闖關進度嗎？")) {
-        localStorage.removeItem('typingGameProgress');
-        for(let i=1; i<=12; i++) unlockedStages[i] = 1;
-        alert("已重置所有存檔進度！");
-        location.reload();
-      }
-    }
+  function returnToLanding() {
+    clearInterval(timerInterval);
+    document.getElementById('app-container').style.display = 'none';
+    document.getElementById('landing-view').style.display = 'flex';
+    updateLandingStats();
+  }
 
-    let timeLeft = 10;
-    let timer = null;
+  // 4. Web Audio API 合成音效
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playSound(type) {
+    if (!soundEnabled) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
 
-    document.addEventListener("DOMContentLoaded", function() {
-      renderCalendarGrid();
-      const keyF = document.getElementById('key-F');
-      const keyJ = document.getElementById('key-J');
-      if (keyF) keyF.classList.add('fj-key');
-      if (keyJ) keyJ.classList.add('fj-key');
-    });
-
-    function goToCalendarScreen() {
-      document.getElementById('welcome-screen').classList.remove('active');
-      document.getElementById('calendar-screen').classList.add('active');
-      document.body.style.background = "linear-gradient(135deg, #f0f4f8, #d9e2ec)";
-    }
-
-    function renderCalendarGrid() {
-      const calendarGrid = document.getElementById('calendar-grid');
-      if (calendarGrid) {
-        calendarGrid.innerHTML = "";
-        for (let i = 1; i <= 12; i++) {
-          const card = document.createElement('div');
-          card.className = 'month-badge-card';
-          card.innerHTML = `
-            <span class="month-num">${i}月</span>
-            <div class="month-icon">${FESTIVAL_DATA[i].icon}</div>
-            <div class="month-title">${FESTIVAL_DATA[i].title}</div>
-            <div class="month-desc">${FESTIVAL_DATA[i].desc}</div>
-          `;
-          card.onclick = () => openStageSelect(i);
-          calendarGrid.appendChild(card);
-        }
-      }
-    }
-
-    function openStageSelect(month) {
-      currentMonth = month;
-      document.body.style.background = FESTIVAL_DATA[month].themeBg;
-
-      document.getElementById('calendar-screen').classList.remove('active');
-      document.getElementById('stage-select-screen').classList.add('active');
-      
-      document.getElementById('stage-header-icon').innerText = FESTIVAL_DATA[month].icon;
-      document.getElementById('stage-menu-title').innerText = `${currentMonth}月：${FESTIVAL_DATA[month].title} - 選擇關卡`;
-      document.getElementById('stage-menu-desc').innerText = FESTIVAL_DATA[month].desc;
-      
-      renderStageGrid();
-    }
-
-    function renderStageGrid() {
-      const stageGrid = document.getElementById('stage-grid');
-      stageGrid.innerHTML = "";
-      let maxUnlocked = unlockedStages[currentMonth];
-
-      const stageNames = ["中排基礎挑戰", "上排字母特訓", "下排字母特訓", "中排+上排混合複習", "節慶高手特訓", "完美制霸挑戰"];
-
-      for (let s = 1; s <= 6; s++) {
-        const isLocked = s > maxUnlocked;
-        const card = document.createElement('div');
-        card.className = `stage-card ${isLocked ? 'locked' : ''}`;
-        card.innerHTML = `
-          <h3>Stage ${s} ${isLocked ? '🔒' : '⭐'}</h3>
-          <p>${stageNames[s-1]}</p>
-        `;
-        if (!isLocked) {
-          card.onclick = () => startStage(s);
-        } else {
-          card.onclick = () => alert("請先完成前一關解鎖本關卡！");
-        }
-        stageGrid.appendChild(card);
-      }
-    }
-
-    function backToCalendar() {
-      document.getElementById('stage-select-screen').classList.remove('active');
-      document.getElementById('calendar-screen').classList.add('active');
-      document.body.style.background = "linear-gradient(135deg, #f0f4f8, #d9e2ec)";
-    }
-
-    function backToStageSelect() {
-      clearInterval(timer);
-      const modal = document.getElementById('result-modal');
-      if (modal) modal.style.display = 'none';
-
-      document.getElementById('game-screen').classList.remove('active');
-      document.getElementById('stage-select-screen').classList.add('active');
-      renderStageGrid();
-    }
-
-    function startStage(stageNum) {
-      currentStage = stageNum;
-      document.getElementById('stage-select-screen').classList.remove('active');
-      document.getElementById('game-screen').classList.add('active');
-      
-      const modal = document.getElementById('result-modal');
-      if (modal) modal.style.display = 'none';
-
-      document.getElementById('festival-title').innerText = `${currentMonth}月：${FESTIVAL_DATA[currentMonth].title}`;
-      document.getElementById('festival-icon').innerText = FESTIVAL_DATA[currentMonth].icon;
-      document.getElementById('theme-desc').innerText = FESTIVAL_DATA[currentMonth].desc;
-      
-      showReadyOverlay();
-    }
-
-    function showReadyOverlay() {
-      const overlay = document.getElementById('countdown-overlay');
-      const readyContent = document.getElementById('ready-content');
-      const numEl = document.getElementById('countdown-number');
-      
-      overlay.style.display = 'flex';
-      readyContent.style.display = 'block';
-      numEl.style.display = 'none';
-    }
-
-    function startCountdown() {
-      const readyContent = document.getElementById('ready-content');
-      const numEl = document.getElementById('countdown-number');
-      
-      readyContent.style.display = 'none';
-      numEl.style.display = 'block';
-      
-      let count = 3;
-      numEl.innerText = count;
-
-      let cdTimer = setInterval(() => {
-        count--;
-        if (count > 0) {
-          numEl.innerText = count;
-        } else if (count === 0) {
-          numEl.innerText = "GO!";
-        } else {
-          clearInterval(cdTimer);
-          document.getElementById('countdown-overlay').style.display = 'none';
-          initStageGame();
-        }
-      }, 1000);
-    }
-
-    // 🎯 生成 20 個不連續重複題目的演算法
-    function generate20Questions(stage) {
-      let pool = [];
-      let activeKeys = [];
-
-      if (stage === 1) { // 中排 9 字 -> 生成 20 字 (每個約2~3次)
-        activeKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-        while (pool.length < 20) {
-          pool = pool.concat(activeKeys);
-        }
-        pool = pool.slice(0, 20);
-      } else if (stage === 2) { // 上排 10 字 -> 每個剛好 2 次 = 20 字
-        activeKeys = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
-        pool = activeKeys.concat(activeKeys);
-      } else if (stage === 3) { // 下排 7 字 -> 生成 20 字 (每個約2~3次)
-        activeKeys = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
-        while (pool.length < 20) {
-          pool = pool.concat(activeKeys);
-        }
-        pool = pool.slice(0, 20);
-      } else if (stage === 4) { // 中+上排 19 字 -> 18字各出現1次 + 1字出現2次 = 20 字
-        activeKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
-        pool = [...activeKeys];
-        // 隨機選一個字母重複 2 次
-        let extraKey = activeKeys[Math.floor(Math.random() * activeKeys.length)];
-        pool.push(extraKey);
-      } else { // 隨機 20 字
-        activeKeys = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
-        while (pool.length < 20) {
-          pool = pool.concat(activeKeys);
-        }
-        pool = pool.slice(0, 20);
-      }
-
-      // 進行洗牌，確保絕不連續重複
-      let result = [];
-      let temp = [...pool];
-      while (temp.length > 0) {
-        let validIndices = temp.map((val, idx) => (result.length === 0 || val !== result[result.length - 1]) ? idx : -1).filter(idx => idx !== -1);
-        
-        if (validIndices.length === 0) {
-          // 若陷入死胡同，重新洗牌
-          return generate20Questions(stage);
-        }
-        
-        let chosenIdx = validIndices[Math.floor(Math.random() * validIndices.length)];
-        result.push(temp[chosenIdx]);
-        temp.splice(chosenIdx, 1);
-      }
-
-      return result;
-    }
-
-    function initStageGame() {
-      document.getElementById('stage-badge').innerText = `Stage ${currentStage}`;
-      
-      if (currentStage === 1) {
-        document.getElementById('theme-desc').innerText += " (【第一關】中排指法練習)";
-      } else if (currentStage === 2) {
-        document.getElementById('theme-desc').innerText += " (【第二關】上排字母特訓)";
-      } else if (currentStage === 3) {
-        document.getElementById('theme-desc').innerText += " (【第三關】下排字母特訓)";
-      } else if (currentStage === 4) {
-        document.getElementById('theme-desc').innerText += " (【第四關】中排+上排混合複習)";
-      }
-
-      questionQueue = generate20Questions(currentStage);
-      currentQuestionIndex = 0;
-      wrongCounts = {};
-      
-      document.querySelectorAll('.key').forEach(el => {
-        el.classList.remove('home-highlight', 'top-highlight', 'bottom-highlight');
+    if (type === 'type') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(640, now);
+      osc.frequency.exponentialRampToValueAtTime(160, now + 0.045);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.045);
+      osc.start(now); osc.stop(now + 0.045);
+    } else if (type === 'error') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(135, now);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.16);
+      osc.start(now); osc.stop(now + 0.16);
+    } else if (type === 'win') {
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, i) => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sine'; o.connect(g); g.connect(audioCtx.destination);
+        o.frequency.setValueAtTime(freq, now + i * 0.09);
+        g.gain.setValueAtTime(0.18, now + i * 0.09);
+        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.09 + 0.35);
+        o.start(now + i * 0.09); o.stop(now + i * 0.09 + 0.35);
       });
-      if (currentStage === 1) {
-        document.querySelectorAll('.home-row .key').forEach(el => el.classList.add('home-highlight'));
-      } else if (currentStage === 2) {
-        document.querySelectorAll('.top-row .key').forEach(el => el.classList.add('top-highlight'));
-      } else if (currentStage === 3) {
-        document.querySelectorAll('.bottom-row .key').forEach(el => el.classList.add('bottom-highlight'));
-      } else if (currentStage === 4) {
-        document.querySelectorAll('.home-row .key').forEach(el => el.classList.add('home-highlight'));
-        document.querySelectorAll('.top-row .key').forEach(el => el.classList.add('top-highlight'));
-      }
-
-      showQuestion();
-      startTimer();
     }
+  }
 
-    function showQuestion() {
-      if (currentQuestionIndex >= 20) {
-        clearInterval(timer);
-        if (currentStage >= unlockedStages[currentMonth] && currentStage < 6) {
-          unlockedStages[currentMonth] = currentStage + 1;
-          saveProgress();
-        }
-        showStageCompleteModal();
-        return;
-      }
+  document.getElementById('sound-toggle').addEventListener('click', (e) => {
+    soundEnabled = !soundEnabled;
+    e.target.textContent = soundEnabled ? "🔊 音效：開啟" : "🔇 音效：靜音";
+  });
 
-      currentKey = questionQueue[currentQuestionIndex];
+  // 5. 初始化虛擬鍵盤
+  function buildKeyboard() {
+    const rows = [
+      ["Q","W","E","R","T","Y","U","I","O","P"],
+      ["A","S","D","F","G","H","J","K","L"],
+      ["Z","X","C","V","B","N","M"]
+    ];
+    const fingerClass = (k) => {
+      if ("QAZ".includes(k)) return "f-pinky";
+      if ("WSX".includes(k)) return "f-ring";
+      if ("EDC".includes(k)) return "f-middle";
+      if ("RFVTGB".includes(k)) return "f-index-l";
+      if ("YHNUJM".includes(k)) return "f-index-r";
+      if ("IK".includes(k)) return "f-middle";
+      if ("OL".includes(k)) return "f-ring";
+      return "f-pinky";
+    };
+    document.getElementById('keyboard').innerHTML = rows.map(row => `
+      <div class="kb-row">
+        ${row.map(k => `<div class="key ${fingerClass(k)}" data-key="${k}">${k}</div>`).join('')}
+      </div>
+    `).join('');
+  }
 
-      let dict = FESTIVAL_DATA[currentMonth].wordsStage1;
-      if (['Q','W','E','R','T','Y','U','I','O','P'].includes(currentKey)) {
-        dict = FESTIVAL_DATA[currentMonth].wordsStage2;
-      } else if (['Z','X','C','V','B','N','M'].includes(currentKey)) {
-        dict = FESTIVAL_DATA[currentMonth].wordsStage3;
-      }
-
-      currentWord = (dict && dict[currentKey]) ? dict[currentKey] : "Festival";
-
-      document.getElementById('highlight-letter').innerText = `[${currentKey}]`;
-      document.getElementById('remaining-word').innerText = currentWord.slice(1);
-
-      document.querySelectorAll('.key').forEach(el => el.classList.remove('active-target'));
-      const targetKeyEl = document.querySelector(`.key[data-key="${currentKey}"]`);
-      if (targetKeyEl) targetKeyEl.classList.add('active-target');
-
-      updateProgressUI();
-      updateFingerHintUI();
+  function updateWeaknessButton() {
+    const btn = document.getElementById('weakness-train-btn');
+    const sortedErrors = Object.entries(globalErrorStats).sort((a, b) => b[1] - a[1]);
+    if (sortedErrors.length > 0) {
+      const topWeak = sortedErrors.slice(0, 3).map(item => item[0]).join(', ');
+      btn.style.display = 'inline-block';
+      btn.textContent = `🎯 弱點特訓營 (${topWeak})`;
+    } else {
+      btn.style.display = 'none';
     }
+  }
 
-    window.addEventListener('keydown', (e) => {
-      const gameScreen = document.getElementById('game-screen');
-      const overlay = document.getElementById('countdown-overlay');
-      if (!gameScreen || !gameScreen.classList.contains('active')) return;
-      if (overlay.style.display === 'flex') return;
-      if (timeLeft <= 0) return;
+  // 6. 渲染 12 個月年曆
+  function renderCalendar() {
+    updateWeaknessButton();
+    const grid = document.getElementById('calendar-view');
+    grid.innerHTML = MONTHS_DATA.map(m => {
+      const monthStartIdx = (m.id - 1) * 6;
+      const isLocked = totalCleared < monthStartIdx;
+      const clearedInMonth = Math.max(0, Math.min(6, totalCleared - monthStartIdx));
+      const isMonthCleared = clearedInMonth === 6;
 
-      const pressedKey = e.key.toUpperCase();
-      
-      if (pressedKey.length === 1 && pressedKey >= 'A' && pressedKey <= 'Z') {
-        if (pressedKey === currentKey) {
-          const targetKeyEl = document.querySelector(`.key[data-key="${currentKey}"]`);
-          if (targetKeyEl) {
-            targetKeyEl.style.transform = 'scale(1.2)';
-            setTimeout(() => targetKeyEl.style.transform = 'scale(1)', 150);
-          }
+      let statusClass = isLocked ? 'locked' : (isMonthCleared ? 'cleared' : '');
+      let badgeText = isLocked ? '🔒 未解鎖' : (isMonthCleared ? '✅ 已全破' : '🔥 進行中');
+      let badgeClass = isLocked ? 'locked' : (isMonthCleared ? 'cleared' : 'open');
 
-          currentQuestionIndex++;
-          showQuestion();
-          if (currentQuestionIndex < 20) {
-            resetTimer();
-          }
-        } else {
-          wrongCounts[currentKey] = (wrongCounts[currentKey] || 0) + 1;
-        }
-      }
-    });
-
-    function updateProgressUI() {
-      document.getElementById('progress-info').innerText = `本關目標進度：已打對 ${currentQuestionIndex} / 20 次`;
-    }
-
-    function startTimer() {
-      resetTimer();
-    }
-
-    function resetTimer() {
-      clearInterval(timer);
-      timeLeft = 10;
-      updateTimerUI();
-
-      timer = setInterval(() => {
-        timeLeft--;
-        updateTimerUI();
-        updateFingerHintUI();
-
-        if (timeLeft <= 0) {
-          // 時間到自動跳下一題
-          currentQuestionIndex++;
-          showQuestion();
-          if (currentQuestionIndex < 20) {
-            resetTimer();
-          }
-        }
-      }, 1000);
-    }
-
-    function updateTimerUI() {
-      document.getElementById('time-left').innerText = timeLeft;
-    }
-
-    function updateFingerHintUI() {
-      const hintBox = document.getElementById('finger-hint');
-      if (!hintBox) return;
-
-      if (timeLeft <= 5) {
-        let positionText = FINGER_POSITIONS[currentKey] || '鍵盤字鍵';
-        hintBox.innerText = `💡 提示：字母 [ ${currentKey} ] 在 ${positionText}`;
-        hintBox.classList.add('show');
-      } else {
-        hintBox.classList.remove('show');
-      }
-    }
-
-    function showStageCompleteModal() {
-      let modal = document.getElementById('result-modal');
-      if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'result-modal';
-        modal.className = 'modal';
-        document.body.appendChild(modal);
-      }
-
-      let maxWrongKey = '-';
-      let maxWrongVal = 0;
-      let analysisHTML = '';
-
-      Object.keys(wrongCounts).forEach(k => {
-        let err = wrongCounts[k];
-        if (err > maxWrongVal) {
-          maxWrongVal = err;
-          maxWrongKey = k;
-        }
-      });
-
-      if (maxWrongVal === 0) {
-        analysisHTML = `<p style="color: #16a34a; font-weight: bold; text-align: center;">🌟 太神啦！本關 20 題零失誤，完美通關！</p>`;
-      } else {
-        analysisHTML = `
-          <p>⚠️ <strong>最常打錯的字母：</strong> <span style="color: #dc2626; font-size: 1.2rem; font-weight: bold;">[ ${maxWrongKey} ]</span> (共錯 ${maxWrongVal} 次)</p>
-          <p style="margin-bottom: 5px; font-weight: bold;">各字母錯字統計分佈：</p>
-          <div style="max-height: 120px; overflow-y: auto; background: #fff; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
-        `;
-        Object.keys(wrongCounts).forEach(k => {
-          analysisHTML += `<div>字母 <strong>${k}</strong>：錯 ${wrongCounts[k]} 次</div>`;
-        });
-        analysisHTML += `</div>`;
-      }
-
-      modal.innerHTML = `
-        <div class="modal-content">
-          <h2>🎉 Stage ${currentStage} 通關成功！</h2>
-          <p>已成功完成 20 字特訓，解鎖下一關並存檔！</p>
-          
-          <div class="analysis-box">
-            <h4>📊 系統錯字分析報告</h4>
-            ${analysisHTML}
+      return `
+        <div class="month-card ${statusClass}" onclick="${isLocked ? '' : `openMonthStages(${m.id})`}">
+          <span class="badge ${badgeClass}">${badgeText}</span>
+          <div class="month-icon">${m.icon}</div>
+          <div class="month-title">${m.name}</div>
+          <p class="month-desc">${m.desc}</p>
+          <div class="mini-progress-wrap">
+            <span>訓練進度</span>
+            <span>${clearedInMonth} / 6 關</span>
           </div>
-
-          <button onclick="backToStageSelect()">返回關卡選單</button>
         </div>
       `;
-      modal.style.display = 'flex';
+    }).join('');
+  }
+
+  // 7. 打開單月 6 關選單
+  function openMonthStages(monthId) {
+    isWeaknessMode = false;
+    activeMonthId = monthId;
+    const mData = MONTHS_DATA.find(m => m.id === monthId);
+    const monthStartIdx = (monthId - 1) * 6;
+    const clearedInMonth = Math.max(0, Math.min(6, totalCleared - monthStartIdx));
+
+    document.getElementById('calendar-view').style.display = 'none';
+    document.getElementById('game-area').style.display = 'none';
+    document.getElementById('stage-select-area').style.display = 'flex';
+
+    document.getElementById('sel-month-icon').textContent = mData.icon;
+    document.getElementById('sel-month-title').textContent = `${mData.name} - 選擇關卡`;
+    document.getElementById('sel-month-desc').textContent = mData.desc;
+    document.getElementById('month-stage-progress').textContent = `完成度：${clearedInMonth} / 6 關`;
+
+    const stagesGrid = document.getElementById('stages-grid');
+    stagesGrid.innerHTML = STAGE_TEMPLATES.map(st => {
+      const globalIdx = monthStartIdx + (st.stage - 1);
+      const isLocked = totalCleared < globalIdx;
+      const isCleared = totalCleared > globalIdx;
+      const isBoss = st.stage === 6;
+
+      let cls = `stage-card ${isLocked ? 'locked' : ''} ${isCleared ? 'cleared' : ''} ${isBoss ? 'boss' : ''}`;
+      let statusIcon = isLocked ? '🔒 未解鎖' : (isCleared ? '⭐ 已過關' : '▶️ 點擊開始');
+
+      return `
+        <div class="${cls}" onclick="${isLocked ? '' : `startStage(${monthId}, ${st.stage})`}">
+          <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-weight:800; margin-bottom:6px; color:${isBoss ? '#fda4af' : '#a5b4fc'};">
+            <span>${isBoss ? '👑 FINAL BOSS' : `LEVEL ${st.stage}`}</span>
+            <span>${statusIcon}</span>
+          </div>
+          <div style="font-weight:700; font-size:1.05rem; margin-bottom:4px; color:#fff;">${st.title}</div>
+          <div style="font-size:0.84rem; color:var(--text-muted);">${st.desc}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 8. 開始具體關卡
+  function startStage(monthId, stageNum) {
+    isWeaknessMode = false;
+    activeMonthId = monthId;
+    activeStageNum = stageNum;
+    const mData = MONTHS_DATA.find(m => m.id === monthId);
+    const stData = STAGE_TEMPLATES.find(s => s.stage === stageNum);
+
+    if (stData.type === 'home') currentWordPool = ROW_POOLS.home;
+    else if (stData.type === 'top') currentWordPool = ROW_POOLS.top;
+    else if (stData.type === 'bottom') currentWordPool = ROW_POOLS.bottom;
+    else if (stData.type === 'fest_short') currentWordPool = mData.short;
+    else if (stData.type === 'fest_long') currentWordPool = mData.long;
+    else currentWordPool = [...mData.short, ...mData.long];
+
+    setupGameSession(`${mData.name} - ${stData.title}`, stData.desc, stData.target, stData.timeLimit, "← 返回關卡列表");
+  }
+
+  function startWeaknessTraining() {
+    isWeaknessMode = true;
+    const sortedErrors = Object.entries(globalErrorStats).sort((a, b) => b[1] - a[1]);
+    const topWeakLetters = sortedErrors.slice(0, 3).map(item => item[0].toLowerCase());
+
+    let allWords = [...ROW_POOLS.home, ...ROW_POOLS.top, ...ROW_POOLS.bottom];
+    MONTHS_DATA.forEach(m => allWords.push(...m.short, ...m.long));
+    allWords = [...new Set(allWords)];
+
+    const targetedWords = allWords.filter(w => topWeakLetters.some(ch => w.includes(ch)));
+    currentWordPool = targetedWords.length > 0 ? targetedWords : allWords;
+
+    const weakDisplay = topWeakLetters.map(c => c.toUpperCase()).join('、');
+    setupGameSession("🎯 弱點字母特訓營", `重點強化易錯按鍵：[ ${weakDisplay} ]`, 10, 0, "← 返回 12 個月年曆");
+  }
+
+  function setupGameSession(title, subtitle, target, timeLimit, backLabel) {
+    completedWords = 0;
+    targetWordsCount = target;
+    previousWord = ""; // 每關開始時重置上一題紀錄
+    stageStartTime = Date.now();
+    totalKeystrokes = 0;
+    correctKeystrokes = 0;
+    stageMistakes = {};
+
+    document.getElementById('calendar-view').style.display = 'none';
+    document.getElementById('stage-select-area').style.display = 'none';
+    document.getElementById('game-area').style.display = 'flex';
+
+    document.getElementById('game-title').textContent = title;
+    document.getElementById('game-subtitle').textContent = subtitle;
+    const backBtn = document.getElementById('back-btn');
+    backBtn.textContent = backLabel;
+    backBtn.onclick = isWeaknessMode ? backToCalendar : backToStageSelect;
+
+    clearInterval(timerInterval);
+    const timerBanner = document.getElementById('timer-banner');
+    if (timeLimit > 0) {
+      timeLeft = timeLimit;
+      timerBanner.style.display = 'block';
+      document.getElementById('time-left').textContent = timeLeft;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('time-left').textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          alert('⏰ 時間到！差一點點就過關了，調整呼吸再挑戰一次！');
+          startStage(activeMonthId, activeStageNum);
+        }
+      }, 1000);
+    } else {
+      timerBanner.style.display = 'none';
     }
-  </script>
+
+    updateProgressUI();
+    nextWord();
+  }
+
+  // 出題函式：確保新單字絕對不會跟上一題重複
+  function nextWord() {
+    let candidates = currentWordPool;
+    if (currentWordPool.length > 1 && previousWord) {
+      candidates = currentWordPool.filter(w => w !== previousWord);
+    }
+    currentWord = candidates[Math.floor(Math.random() * candidates.length)];
+    previousWord = currentWord;
+    charIndex = 0;
+    renderWord();
+  }
+
+  function renderWord() {
+    const display = document.getElementById('word-display');
+    let html = '';
+    for (let i = 0; i < currentWord.length; i++) {
+      if (i < charIndex) html += `<span class="char-done">${currentWord[i]}</span>`;
+      else if (i === charIndex) html += `<span class="char-current">${currentWord[i]}</span>`;
+      else html += `<span class="char-todo">${currentWord[i]}</span>`;
+    }
+    display.innerHTML = html;
+
+    const targetChar = currentWord[charIndex].toUpperCase();
+    document.querySelectorAll('.key').forEach(el => el.classList.remove('target'));
+    const targetKeyEl = document.querySelector(`.key[data-key="${targetChar}"]`);
+    if (targetKeyEl) targetKeyEl.classList.add('target');
+
+    document.getElementById('hint-box').textContent = `💡 指法提示：請用「${FINGER_HINTS[targetChar] || '對應手指'}」按下 [ ${targetChar} ] 鍵`;
+  }
+
+  function updateProgressUI() {
+    document.getElementById('progress-text').textContent = `${completedWords} / ${targetWordsCount}`;
+    document.getElementById('progress-label').textContent = `本關目標進度：已打對 ${completedWords} / ${targetWordsCount} 個單字`;
+    document.getElementById('progress-fill').style.width = `${(completedWords / targetWordsCount) * 100}%`;
+  }
+
+  // 9. 鍵盤輸入偵測
+  window.addEventListener('keydown', (e) => {
+    if (document.getElementById('app-container').style.display !== 'flex') return;
+    if (document.getElementById('game-area').style.display !== 'flex') return;
+    if (e.key.length !== 1 || !/[a-zA-Z]/.test(e.key)) return;
+
+    const pressed = e.key.toLowerCase();
+    const expected = currentWord[charIndex].toLowerCase();
+    const expectedUpper = expected.toUpperCase();
+
+    totalKeystrokes++;
+
+    if (pressed === expected) {
+      correctKeystrokes++;
+      playSound('type');
+      charIndex++;
+      if (charIndex >= currentWord.length) {
+        completedWords++;
+        updateProgressUI();
+        if (completedWords >= targetWordsCount) {
+          handleStageClear();
+        } else {
+          nextWord();
+        }
+      } else {
+        renderWord();
+      }
+    } else {
+      stageMistakes[expectedUpper] = (stageMistakes[expectedUpper] || 0) + 1;
+      globalErrorStats[expectedUpper] = (globalErrorStats[expectedUpper] || 0) + 1;
+      localStorage.setItem('typing72_errors', JSON.stringify(globalErrorStats));
+
+      playSound('error');
+      const display = document.getElementById('word-display');
+      display.classList.remove('shake');
+      void display.offsetWidth;
+      display.classList.add('shake');
+
+      const wrongKeyEl = document.querySelector(`.key[data-key="${pressed.toUpperCase()}"]`);
+      if (wrongKeyEl) {
+        wrongKeyEl.classList.add('wrong');
+        setTimeout(() => wrongKeyEl.classList.remove('wrong'), 250);
+      }
+    }
+  });
+
+  // 10. 過關結算與診斷報告
+  function handleStageClear() {
+    clearInterval(timerInterval);
+    playSound('win');
+
+    const elapsedMinutes = Math.max((Date.now() - stageStartTime) / 60000, 0.05);
+    const wpm = Math.round((correctKeystrokes / 5) / elapsedMinutes);
+    const accuracy = totalKeystrokes > 0 ? Math.round((correctKeystrokes / totalKeystrokes) * 100) : 100;
+
+    document.getElementById('stat-accuracy').textContent = `${accuracy}%`;
+    document.getElementById('stat-wpm').textContent = `${wpm}`;
+
+    const analysisContainer = document.getElementById('error-analysis-container');
+    const mistakeList = Object.entries(stageMistakes).sort((a, b) => b[1] - a[1]);
+
+    if (mistakeList.length === 0) {
+      analysisContainer.innerHTML = `
+        <div class="analysis-box perfect">
+          <div style="font-size: 1.1rem; font-weight: 800; color: #6ee7b7; margin-bottom: 4px;">✨ 完美零失誤通關！</div>
+          <div style="font-size: 0.85rem; color: #a7f3d0;">所有按鍵一次精準命中，手指肌肉記憶非常穩定！</div>
+        </div>
+      `;
+    } else {
+      const top3 = mistakeList.slice(0, 3);
+      analysisContainer.innerHTML = `
+        <div class="analysis-box">
+          <div class="analysis-title">🔍 本關最容易打錯的字母診斷：</div>
+          ${top3.map(([letter, count]) => `
+            <div class="weak-key-item">
+              <div>
+                <span class="weak-key-badge">${letter}</span>
+                <span style="color: #e2e8f0;">負責手指：<strong>${FINGER_HINTS[letter] || '對應手指'}</strong></span>
+              </div>
+              <span style="color: #fda4af; font-weight: 700;">按錯 ${count} 次</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    const nextBtn = document.getElementById('next-stage-btn');
+    if (isWeaknessMode) {
+      triggerCelebration(1, false);
+      document.getElementById('victory-icon').textContent = "🎯";
+      document.getElementById('victory-title').textContent = "弱點特訓完成！";
+      document.getElementById('victory-desc').textContent = "針對易錯字母的肌肉記憶已經強化！";
+      nextBtn.style.display = 'block';
+      nextBtn.textContent = "再練一輪弱點特訓";
+    } else {
+      const isMonthBoss = (activeStageNum === 6);
+      triggerCelebration(activeMonthId, isMonthBoss);
+
+      const clearedGlobalIdx = (activeMonthId - 1) * 6 + activeStageNum;
+      if (clearedGlobalIdx > totalCleared) {
+        totalCleared = clearedGlobalIdx;
+        localStorage.setItem('typing72_cleared', totalCleared);
+      }
+
+      const mData = MONTHS_DATA.find(m => m.id === activeMonthId);
+      if (isMonthBoss) {
+        document.getElementById('victory-icon').textContent = "🏆";
+        document.getElementById('victory-title').textContent = `恭喜完成 ${mData.name} 全部 6 關！`;
+        if (activeMonthId < 12) {
+          const nextMonth = MONTHS_DATA.find(m => m.id === activeMonthId + 1);
+          document.getElementById('victory-desc').textContent = `已為你解鎖「${nextMonth.name}」！`;
+          nextBtn.style.display = 'block';
+          nextBtn.textContent = `前往 ${nextMonth.name} →`;
+        } else {
+          document.getElementById('victory-desc').textContent = `傳奇誕生！你已經通關全年度 72 個節慶關卡！`;
+          nextBtn.style.display = 'none';
+        }
+      } else {
+        document.getElementById('victory-icon').textContent = "🎉";
+        document.getElementById('victory-title').textContent = `Stage ${activeStageNum} 過關！`;
+        document.getElementById('victory-desc').textContent = `指法越來越熟練了，準備好進入下一關了嗎？`;
+        nextBtn.style.display = 'block';
+        nextBtn.textContent = `挑戰 Stage ${activeStageNum + 1} →`;
+      }
+    }
+
+    document.getElementById('victory-modal').style.display = 'flex';
+  }
+
+  function triggerCelebration(month, isGrandFinale) {
+    if (!isGrandFinale) {
+      confetti({ particleCount: 75, spread: 65, origin: { y: 0.65 }, zIndex: 9999 });
+      return;
+    }
+
+    if (month === 1 || month === 10) {
+      const duration = 3000;
+      const end = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+      const interval = setInterval(() => {
+        const timeLeft = end - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({ ...defaults, particleCount, origin: { x: Math.random() * 0.3 + 0.1, y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount, origin: { x: Math.random() * 0.3 + 0.6, y: Math.random() - 0.2 } });
+      }, 250);
+    } else if (month === 2 || month === 8 || month === 9) {
+      const colors = ['#f43f5e', '#f59e0b', '#fde047'];
+      confetti({ particleCount: 110, angle: 60, spread: 65, origin: { x: 0, y: 0.7 }, colors, zIndex: 9999 });
+      confetti({ particleCount: 110, angle: 120, spread: 65, origin: { x: 1, y: 0.7 }, colors, zIndex: 9999 });
+    } else if (month === 12) {
+      const duration = 3000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#bae6fd', '#ffffff', '#38bdf8'], shapes: ['circle'], zIndex: 9999 });
+        confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#bae6fd', '#ffffff', '#38bdf8'], shapes: ['circle'], zIndex: 9999 });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    } else {
+      confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 }, zIndex: 9999 });
+    }
+  }
+
+  function closeVictoryModal(goNext) {
+    document.getElementById('victory-modal').style.display = 'none';
+    if (isWeaknessMode) {
+      if (goNext) startWeaknessTraining();
+      else backToCalendar();
+      return;
+    }
+
+    if (goNext) {
+      if (activeStageNum < 6) {
+        startStage(activeMonthId, activeStageNum + 1);
+      } else if (activeMonthId < 12) {
+        openMonthStages(activeMonthId + 1);
+      }
+    } else {
+      openMonthStages(activeMonthId);
+    }
+  }
+
+  function backToStageSelect() {
+    clearInterval(timerInterval);
+    openMonthStages(activeMonthId);
+  }
+
+  function backToCalendar() {
+    clearInterval(timerInterval);
+    document.getElementById('stage-select-area').style.display = 'none';
+    document.getElementById('game-area').style.display = 'none';
+    document.getElementById('calendar-view').style.display = 'grid';
+    renderCalendar();
+  }
+
+  function resetProgress() {
+    if (confirm('確定要清除所有 72 關過關紀錄與錯字統計，重新開始嗎？')) {
+      totalCleared = 0;
+      globalErrorStats = {};
+      localStorage.setItem('typing72_cleared', '0');
+      localStorage.setItem('typing72_errors', '{}');
+      updateLandingStats();
+      backToCalendar();
+    }
+  }
+
+  // 初始化啟動（預設停留在專屬首頁）
+  buildKeyboard();
+  updateLandingStats();
+</script>
 </body>
 </html>
